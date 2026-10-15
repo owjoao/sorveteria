@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Testing and Screenshots
+screenshot_*.png
+*.log
+
+# Production build & Vercel
+.vercel/
+
+# OS and Editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

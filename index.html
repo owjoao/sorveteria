@@ -126,6 +126,72 @@
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
     }
+
+    /* ========================================================================= */
+    /* 15 FLAVORS SHOWCASE - SCALE UP & DYNAMIC COLOR TRANSITION                */
+    /* ========================================================================= */
+    :root {
+      --flavor-theme: #FF4B72;
+      --flavor-bg: #FFF0F3;
+      --flavor-glow: rgba(255, 75, 114, 0.40);
+      --flavor-badge: #FFE4E9;
+    }
+
+    #flavours {
+      transition: background-color 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .flavor-glow-sphere {
+      position: absolute;
+      width: 480px;
+      height: 480px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--flavor-glow) 0%, rgba(255, 255, 255, 0) 70%);
+      filter: blur(40px);
+      pointer-events: none;
+      transition: background 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s ease;
+      animation: pulseSoft 4s ease-in-out infinite;
+    }
+
+    @keyframes flavorScaleUpKeyframe {
+      0% {
+        transform: scale(0.82) translateY(12px);
+        opacity: 0.35;
+        filter: blur(2px);
+      }
+      55% {
+        transform: scale(1.08) translateY(-4px);
+        opacity: 1;
+        filter: blur(0px);
+      }
+      80% {
+        transform: scale(0.98) translateY(1px);
+      }
+      100% {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .flavor-scale-up {
+      animation: flavorScaleUpKeyframe 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    /* Thumbnail Scrollbar Styling */
+    .thumb-scroll::-webkit-scrollbar {
+      height: 6px;
+    }
+    .thumb-scroll::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.04);
+      border-radius: 999px;
+    }
+    .thumb-scroll::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.18);
+      border-radius: 999px;
+    }
+    .thumb-scroll::-webkit-scrollbar-thumb:hover {
+      background: var(--flavor-theme);
+    }
   </style>
 
   <!-- Schema.org SEO & GEO Data -->
@@ -388,137 +454,226 @@
 
 
   <!-- ========================================================================= -->
-  <!-- 3. OUR SIGNATURE FLAVOURS SECTION                                         -->
+  <!-- 3. OUR SIGNATURE 15 FLAVOURS INTERACTIVE SHOWCASE                         -->
   <!-- ========================================================================= -->
-  <section id="flavours" class="py-20 bg-white relative">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+  <section id="flavours" class="scroll-mt-20 pt-20 pb-20 sm:pt-28 sm:pb-28 relative overflow-hidden transition-colors duration-700" style="background-color: var(--flavor-bg);">
+    
+    <!-- Top Decorative Wave -->
+    <div class="absolute top-0 left-0 right-0 h-8 overflow-hidden pointer-events-none opacity-40">
+      <svg class="w-full h-full text-white fill-current" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M0,0 C150,60 350,-20 500,30 C650,80 900,10 1200,40 L1200,0 L0,0 Z"></path>
+      </svg>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-8 sm:space-y-12">
       
-      <!-- Section Header (PT-BR) -->
-      <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div class="text-center sm:text-left">
-          <span class="font-script text-2xl sm:text-3xl text-brand-caramel block">Sinta a Magia</span>
-          <h2 class="text-2xl sm:text-4xl font-display font-extrabold text-brand-dark flex items-center justify-center sm:justify-start gap-2">
-            NOSSOS SABORES EXCLUSIVOS <span class="text-2xl">🍦</span>
+      <!-- Section Header -->
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+        <div>
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-2 shadow-sm border border-black/5" id="flavorHeaderBadge" style="background-color: var(--flavor-badge); color: var(--flavor-theme);">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <span>Coleção Completa • 15 Criações Autorais</span>
+          </div>
+          <h2 class="text-3xl sm:text-5xl font-display font-extrabold text-stone-900 tracking-tight">
+            ESCOLHA SEU GELATO <span class="font-script text-brand-caramel font-normal normal-case block sm:inline text-4xl sm:text-5xl">favorito</span>
           </h2>
+          <p class="text-stone-600 text-sm sm:text-base max-w-2xl mt-1">
+            Navegue para a esquerda ou direita para sentir a intensidade dos ingredientes frescos, caldas artesanais e aveludada textura italiana.
+          </p>
         </div>
 
-        <!-- View All Flavours Outline Button -->
-        <a href="#menu" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border-2 border-brand-pink text-brand-pink hover:bg-brand-pink hover:text-white font-bold text-xs sm:text-sm transition-all duration-300 shadow-sm">
-          <span>Ver Todos os Sabores</span>
-          <span>🍨</span>
-        </a>
+        <!-- Desktop Quick Controls & Counter -->
+        <div class="flex items-center gap-4">
+          <div class="hidden sm:flex flex-col items-end">
+            <span class="text-xs uppercase font-extrabold tracking-widest text-stone-500">Sabor Atual</span>
+            <div class="text-xl font-black font-display text-stone-900">
+              <span id="flavorCurrentNum" style="color: var(--flavor-theme);">01</span>
+              <span class="text-stone-400 font-normal"> / 15</span>
+            </div>
+          </div>
+          
+          <div class="flex items-center gap-2">
+            <button onclick="prevFlavor()" class="w-12 h-12 rounded-2xl bg-white/90 hover:bg-white text-stone-800 hover:scale-105 active:scale-95 shadow-md flex items-center justify-center transition-all duration-300 border border-stone-200/80 group" title="Sabor Anterior (Seta Esquerda)" aria-label="Sabor Anterior">
+              <i class="fa-solid fa-arrow-left text-sm group-hover:-translate-x-0.5 transition-transform"></i>
+            </button>
+            <button onclick="nextFlavor()" class="w-12 h-12 rounded-2xl bg-white/90 hover:bg-white text-stone-800 hover:scale-105 active:scale-95 shadow-md flex items-center justify-center transition-all duration-300 border border-stone-200/80 group" title="Próximo Sabor (Seta Direita)" aria-label="Próximo Sabor">
+              <i class="fa-solid fa-arrow-right text-sm group-hover:translate-x-0.5 transition-transform"></i>
+            </button>
+          </div>
+        </div>
       </div>
 
-      <!-- 5 Flavour Cards Grid (PT-BR) -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+      <!-- MAIN INTERACTIVE SHOWCASE STAGE -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center bg-white/70 backdrop-blur-md rounded-[2.5rem] p-6 sm:p-10 lg:p-12 border border-white/80 shadow-[0_20px_50px_rgba(0,0,0,0.06)] relative overflow-hidden">
         
-        <!-- CARD 1: Belgian Chocolate -->
-        <div class="group rounded-3xl bg-[#fbf0ea] p-5 border border-amber-100 hover:border-amber-300 shadow-[0_4px_16px_rgba(0,0,0,0.03)] hover:shadow-[0_16px_30px_rgba(200,109,27,0.15)] hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between text-center relative overflow-hidden">
-          <div class="space-y-4">
-            <!-- Scoop Image Container with Overflow & Hover Zoom -->
-            <div class="w-36 h-36 mx-auto relative rounded-2xl overflow-hidden shadow-sm group-hover:scale-105 transition-transform duration-500">
-              <img src="assets/flavour_chocolate.jpg" alt="Sorvete de Chocolate Belga Artesanal" class="w-full h-full object-cover" />
-            </div>
-            <div>
-              <h3 class="font-display font-bold text-lg text-brand-dark group-hover:text-brand-caramel transition-colors">
-                Chocolate Belga
-              </h3>
-              <p class="text-xs font-medium text-brand-muted pt-0.5">Intenso & Aveludado</p>
-            </div>
-          </div>
-          <!-- Quick Action -->
-          <div class="pt-4 border-t border-amber-200/50 mt-4 flex items-center justify-between">
-            <span class="text-xs font-bold text-brand-dark">R$ 16,00</span>
-            <button onclick="addToCart('Chocolate Belga', 16)" class="w-8 h-8 rounded-full bg-white text-brand-pink hover:bg-brand-pink hover:text-white flex items-center justify-center text-xs shadow transition-colors" title="Adicionar ao pedido">
-              <i class="fa-solid fa-plus"></i>
-            </button>
-          </div>
+        <!-- Center Floating Glow Sphere (Changes Color Smoothly) -->
+        <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+          <div id="flavorGlow" class="flavor-glow-sphere"></div>
         </div>
 
-        <!-- CARD 2: Strawberry Bliss -->
-        <div class="group rounded-3xl bg-[#fdedf2] p-5 border border-pink-100 hover:border-pink-300 shadow-[0_4px_16px_rgba(0,0,0,0.03)] hover:shadow-[0_16px_30px_rgba(235,71,126,0.15)] hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between text-center relative overflow-hidden">
-          <div class="space-y-4">
-            <div class="w-36 h-36 mx-auto relative rounded-2xl overflow-hidden shadow-sm group-hover:scale-105 transition-transform duration-500">
-              <img src="assets/flavour_strawberry.jpg" alt="Sorvete de Morango Silvestre" class="w-full h-full object-cover" />
-            </div>
-            <div>
-              <h3 class="font-display font-bold text-lg text-brand-dark group-hover:text-brand-pink transition-colors">
-                Morango Silvestre
-              </h3>
-              <p class="text-xs font-medium text-brand-muted pt-0.5">Frutado & Refrescante</p>
+        <!-- LEFT COLUMN: Ice Cream Visual Stage with Scale-Up Animation -->
+        <div class="lg:col-span-6 flex flex-col items-center justify-center relative min-h-[380px] sm:min-h-[460px]">
+          
+          <!-- Large Decorative Background Number -->
+          <span id="flavorBigWatermark" class="absolute select-none font-display font-black text-[130px] sm:text-[180px] lg:text-[210px] text-black/[0.04] leading-none pointer-events-none transition-all duration-500">
+            01
+          </span>
+
+          <!-- Left & Right Floating Controls (Direct on the Stage) -->
+          <button onclick="prevFlavor()" class="absolute left-0 sm:left-2 z-20 w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-white/90 hover:bg-white text-stone-800 shadow-xl flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 border border-stone-200" aria-label="Voltar Sabor">
+            <i class="fa-solid fa-chevron-left text-sm"></i>
+          </button>
+          <button onclick="nextFlavor()" class="absolute right-0 sm:right-2 z-20 w-11 h-11 sm:w-13 sm:h-13 rounded-full bg-white/90 hover:bg-white text-stone-800 shadow-xl flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 border border-stone-200" aria-label="Avançar Sabor">
+            <i class="fa-solid fa-chevron-right text-sm"></i>
+          </button>
+
+          <!-- Central Ice Cream Image Container with Scale-Up Animation and Rounded Poster Frame -->
+          <div class="relative z-10 w-full max-w-[290px] sm:max-w-[340px] md:max-w-[370px] flex items-center justify-center py-2">
+            <div class="rounded-3xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.18)] border-4 border-white/90 bg-white group/img cursor-pointer transition-transform duration-300 hover:scale-[1.02]" onclick="triggerFlavorZoom()" title="Clique para ver a textura em detalhes!">
+              <img 
+                id="activeFlavorImg" 
+                src="assets/flavours/morango.webp" 
+                alt="Sorvete de Morango Silvestre" 
+                class="flavor-scale-up w-full h-auto object-cover select-none"
+              />
             </div>
           </div>
-          <div class="pt-4 border-t border-pink-200/50 mt-4 flex items-center justify-between">
-            <span class="text-xs font-bold text-brand-dark">R$ 16,00</span>
-            <button onclick="addToCart('Morango Silvestre', 16)" class="w-8 h-8 rounded-full bg-white text-brand-pink hover:bg-brand-pink hover:text-white flex items-center justify-center text-xs shadow transition-colors" title="Adicionar ao pedido">
-              <i class="fa-solid fa-plus"></i>
-            </button>
+
+          <!-- Bottom Micro Tagline -->
+          <div class="relative z-10 mt-2 flex items-center gap-2 px-3 py-1 rounded-full bg-white/80 backdrop-blur-sm border border-stone-200/60 shadow-xs text-[11px] font-semibold text-stone-600">
+            <i class="fa-solid fa-shield-heart text-amber-500"></i>
+            <span>Feito diariamente com leite A fresco & frutas selecionadas</span>
           </div>
+
         </div>
 
-        <!-- CARD 3: Cookie Craze -->
-        <div class="group rounded-3xl bg-[#f4f4f6] p-5 border border-slate-200 hover:border-slate-300 shadow-[0_4px_16px_rgba(0,0,0,0.03)] hover:shadow-[0_16px_30px_rgba(0,0,0,0.12)] hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between text-center relative overflow-hidden">
-          <div class="space-y-4">
-            <div class="w-36 h-36 mx-auto relative rounded-2xl overflow-hidden shadow-sm group-hover:scale-105 transition-transform duration-500">
-              <img src="assets/flavour_cookie.jpg" alt="Sorvete Cookies & Cream" class="w-full h-full object-cover" />
+        <!-- RIGHT COLUMN: Flavor Description, Portion Selector & Action -->
+        <div class="lg:col-span-6 space-y-6 relative z-10 flex flex-col justify-center">
+          
+          <!-- Category & English Slogan -->
+          <div class="space-y-1">
+            <div class="flex items-center gap-3">
+              <span id="activeFlavorCategory" class="px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider" style="background-color: var(--flavor-badge); color: var(--flavor-theme);">
+                Frutas Frescas
+              </span>
+              <span class="text-xs text-stone-400 font-semibold flex items-center gap-1">
+                <i class="fa-solid fa-leaf text-emerald-500"></i> 100% Artesanal
+              </span>
             </div>
-            <div>
-              <h3 class="font-display font-bold text-lg text-brand-dark group-hover:text-slate-800 transition-colors">
-                Cookies & Cream
-              </h3>
-              <p class="text-xs font-medium text-brand-muted pt-0.5">Cremoso & Crocante</p>
+
+            <!-- English artistic slogan from original artwork -->
+            <p id="activeFlavorEnglish" class="font-script text-2xl sm:text-3xl text-brand-caramel pt-1">
+              Sweet Strawberry Dream
+            </p>
+
+            <!-- Main Flavor Title -->
+            <h3 id="activeFlavorName" class="text-3xl sm:text-4xl lg:text-5xl font-display font-black text-stone-900 tracking-tight leading-tight">
+              Morango Silvestre
+            </h3>
+          </div>
+
+          <!-- Sensory Description -->
+          <p id="activeFlavorDesc" class="text-stone-600 text-sm sm:text-base leading-relaxed">
+            Morangos frescos macerados na hora mesclados com base de leite tipo A e fios de calda artesanal aromática. Uma explosão frutada irresistível a cada colherada.
+          </p>
+
+          <!-- Flavor Notes / Badges -->
+          <div class="space-y-2">
+            <span class="text-[11px] font-extrabold uppercase tracking-wider text-stone-400">Ingredientes & Perfil Sensorial</span>
+            <div id="activeFlavorNotes" class="flex flex-wrap gap-2">
+              <span class="px-3 py-1 rounded-full bg-stone-100 border border-stone-200 text-stone-700 text-xs font-semibold">
+                🍓 Morangos Vermelhos Frescos
+              </span>
+              <span class="px-3 py-1 rounded-full bg-stone-100 border border-stone-200 text-stone-700 text-xs font-semibold">
+                🍯 Calda Macerada
+              </span>
+              <span class="px-3 py-1 rounded-full bg-stone-100 border border-stone-200 text-stone-700 text-xs font-semibold">
+                🧇 Casquinha Crocante
+              </span>
             </div>
           </div>
-          <div class="pt-4 border-t border-slate-200 mt-4 flex items-center justify-between">
-            <span class="text-xs font-bold text-brand-dark">R$ 18,00</span>
-            <button onclick="addToCart('Cookies & Cream', 18)" class="w-8 h-8 rounded-full bg-white text-brand-pink hover:bg-brand-pink hover:text-white flex items-center justify-center text-xs shadow transition-colors" title="Adicionar ao pedido">
-              <i class="fa-solid fa-plus"></i>
+
+          <!-- Portion / Size Selector -->
+          <div class="space-y-2.5 pt-2">
+            <span class="text-[11px] font-extrabold uppercase tracking-wider text-stone-400">Escolha o Tamanho da Sua Experiência</span>
+            <div class="grid grid-cols-3 gap-2.5 sm:gap-3" id="portionSelectorGroup">
+              
+              <!-- 1 Bola -->
+              <button type="button" onclick="selectPortion('single', this)" class="portion-btn active-portion p-3 rounded-2xl bg-white border-2 border-brand-pink shadow-sm text-center transition-all flex flex-col items-center gap-1 group">
+                <span class="text-[11px] uppercase font-bold text-stone-500 group-hover:text-stone-900">1 Bola</span>
+                <span class="text-sm sm:text-base font-black text-stone-900" id="priceTagSingle">R$ 16,00</span>
+                <span class="text-[9px] text-stone-400">Casquinha / Copo</span>
+              </button>
+
+              <!-- 2 Bolas -->
+              <button type="button" onclick="selectPortion('double', this)" class="portion-btn p-3 rounded-2xl bg-white border-2 border-stone-200 hover:border-stone-300 shadow-sm text-center transition-all flex flex-col items-center gap-1 group">
+                <span class="text-[11px] uppercase font-bold text-stone-500 group-hover:text-stone-900">2 Bolas</span>
+                <span class="text-sm sm:text-base font-black text-stone-900" id="priceTagDouble">R$ 26,00</span>
+                <span class="text-[9px] text-stone-400">Mais pedido</span>
+              </button>
+
+              <!-- Pote 500ml -->
+              <button type="button" onclick="selectPortion('tub', this)" class="portion-btn p-3 rounded-2xl bg-white border-2 border-stone-200 hover:border-stone-300 shadow-sm text-center transition-all flex flex-col items-center gap-1 group">
+                <span class="text-[11px] uppercase font-bold text-stone-500 group-hover:text-stone-900">Pote 500ml</span>
+                <span class="text-sm sm:text-base font-black text-stone-900" id="priceTagTub">R$ 48,00</span>
+                <span class="text-[9px] text-stone-400">Para levar para casa</span>
+              </button>
+
+            </div>
+          </div>
+
+          <!-- Call to Action Buttons -->
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
+            
+            <button 
+              id="btnAddActiveFlavor" 
+              onclick="addCurrentFlavorToCart()" 
+              class="flex-1 py-4 px-6 rounded-2xl font-black text-sm uppercase tracking-wider text-white shadow-xl hover:shadow-2xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-3"
+              style="background-color: var(--flavor-theme);"
+            >
+              <i class="fa-solid fa-cart-plus text-base"></i>
+              <span>Adicionar ao Pedido • <span id="btnActivePriceDisplay">R$ 16,00</span></span>
             </button>
+
+            <button 
+              id="btnWhatsappActiveFlavor" 
+              onclick="orderCurrentFlavorWhatsApp()" 
+              class="py-4 px-5 rounded-2xl font-bold text-sm bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg flex items-center justify-center gap-2 transition-transform active:scale-95"
+              title="Pedir direto no WhatsApp"
+            >
+              <i class="fa-brands fa-whatsapp text-lg"></i>
+              <span class="hidden sm:inline">WhatsApp</span>
+            </button>
+
           </div>
+
+          <!-- Keyboard Hints -->
+          <div class="flex items-center justify-between text-[11px] text-stone-400 pt-1">
+            <span class="flex items-center gap-1.5">
+              <kbd class="px-1.5 py-0.5 rounded bg-white border border-stone-300 text-stone-700 font-mono text-[10px]">←</kbd>
+              <kbd class="px-1.5 py-0.5 rounded bg-white border border-stone-300 text-stone-700 font-mono text-[10px]">→</kbd>
+              <span>Navegue pelo teclado</span>
+            </span>
+            <span class="font-semibold text-stone-500" id="portionSelectedText">Porção: 1 Bola</span>
+          </div>
+
         </div>
 
-        <!-- CARD 4: Mango Delight -->
-        <div class="group rounded-3xl bg-[#fef6e4] p-5 border border-amber-100 hover:border-amber-300 shadow-[0_4px_16px_rgba(0,0,0,0.03)] hover:shadow-[0_16px_30px_rgba(217,130,43,0.15)] hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between text-center relative overflow-hidden">
-          <div class="space-y-4">
-            <div class="w-36 h-36 mx-auto relative rounded-2xl overflow-hidden shadow-sm group-hover:scale-105 transition-transform duration-500">
-              <img src="assets/flavour_mango.jpg" alt="Sorbet de Manga Tropical" class="w-full h-full object-cover" />
-            </div>
-            <div>
-              <h3 class="font-display font-bold text-lg text-brand-dark group-hover:text-amber-600 transition-colors">
-                Manga Tropical
-              </h3>
-              <p class="text-xs font-medium text-brand-muted pt-0.5">Refrescante & Suculento</p>
-            </div>
-          </div>
-          <div class="pt-4 border-t border-amber-200/50 mt-4 flex items-center justify-between">
-            <span class="text-xs font-bold text-brand-dark">R$ 16,00</span>
-            <button onclick="addToCart('Manga Tropical', 16)" class="w-8 h-8 rounded-full bg-white text-brand-pink hover:bg-brand-pink hover:text-white flex items-center justify-center text-xs shadow transition-colors" title="Adicionar ao pedido">
-              <i class="fa-solid fa-plus"></i>
-            </button>
-          </div>
+      </div>
+
+      <!-- BOTTOM THUMBNAILS CAROUSEL (ALL 15 FLAVORS) -->
+      <div class="space-y-3 pt-4">
+        <div class="flex items-center justify-between">
+          <span class="text-xs uppercase font-extrabold tracking-wider text-stone-600 flex items-center gap-2">
+            <i class="fa-solid fa-grip text-brand-pink"></i>
+            <span>Catálogo Completo dos 15 Sabores (Clique para Explorar):</span>
+          </span>
+          <span class="text-xs text-stone-500 font-medium hidden sm:inline">Arraste horizontalmente para ver todos</span>
         </div>
 
-        <!-- CARD 5: Cotton Candy -->
-        <div class="group rounded-3xl bg-[#eef5fb] p-5 border border-sky-100 hover:border-sky-300 shadow-[0_4px_16px_rgba(0,0,0,0.03)] hover:shadow-[0_16px_30px_rgba(56,189,248,0.15)] hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between text-center relative overflow-hidden">
-          <div class="space-y-4">
-            <div class="w-36 h-36 mx-auto relative rounded-2xl overflow-hidden shadow-sm group-hover:scale-105 transition-transform duration-500">
-              <img src="assets/flavour_cotton_candy.jpg" alt="Sorvete Algodão Doce" class="w-full h-full object-cover" />
-            </div>
-            <div>
-              <h3 class="font-display font-bold text-lg text-brand-dark group-hover:text-sky-600 transition-colors">
-                Algodão Doce
-              </h3>
-              <p class="text-xs font-medium text-brand-muted pt-0.5">Doce & Aveludado</p>
-            </div>
-          </div>
-          <div class="pt-4 border-t border-sky-200 mt-4 flex items-center justify-between">
-            <span class="text-xs font-bold text-brand-dark">R$ 18,00</span>
-            <button onclick="addToCart('Algodão Doce', 18)" class="w-8 h-8 rounded-full bg-white text-brand-pink hover:bg-brand-pink hover:text-white flex items-center justify-center text-xs shadow transition-colors" title="Adicionar ao pedido">
-              <i class="fa-solid fa-plus"></i>
-            </button>
-          </div>
+        <div class="thumb-scroll flex items-center gap-3 overflow-x-auto pb-4 pt-1 px-1 scroll-smooth" id="flavorThumbnailsTrack">
+          <!-- Dynamically populated or rendered thumbnails -->
         </div>
-
       </div>
 
     </div>
@@ -1164,6 +1319,518 @@
           ease: 'power3.out'
         });
       }
+    });
+
+    /* ========================================================================= */
+    /* 15 FLAVORS SHOWCASE CONTROLLER (SCALE UP ANIMATION & DYNAMIC COLORS)     */
+    /* ========================================================================= */
+    const FLAVORS_CATALOG = [
+      {
+        id: 1,
+        name: "Morango Silvestre",
+        englishTitle: "Sweet Strawberry Dream",
+        category: "Frutas Frescas",
+        priceSingle: 16,
+        priceDouble: 26,
+        priceTub: 48,
+        img: "assets/flavours/morango.webp",
+        themeColor: "#FF4B72",
+        bgColor: "#FFF0F3",
+        glowColor: "rgba(255, 75, 114, 0.45)",
+        badgeBg: "#FFE4E9",
+        description: "Morangos frescos macerados na hora mesclados com base de leite tipo A e fios de calda artesanal aromática. Uma explosão frutada irresistível a cada colherada.",
+        notes: ["🍓 Morangos Frescos", "🍯 Calda Macerada", "🧇 Casquinha Crocante"]
+      },
+      {
+        id: 2,
+        name: "Chocolate Belga 70%",
+        englishTitle: "Rich Belgian Cocoa",
+        category: "Chocolatier",
+        priceSingle: 18,
+        priceDouble: 28,
+        priceTub: 52,
+        img: "assets/flavours/chocolate.webp",
+        themeColor: "#5D2E17",
+        bgColor: "#FBF0EA",
+        glowColor: "rgba(93, 46, 23, 0.45)",
+        badgeBg: "#F0DFD5",
+        description: "Cacau belga nobre de alta intensidade com raspas de trufas crocantes e toque aveludado de manteiga de cacau. Para amantes de chocolate puro.",
+        notes: ["🍫 Cacau Belga 70%", "✨ Raspas de Trufa", "🥛 Creme Aveludado"]
+      },
+      {
+        id: 3,
+        name: "Baunilha de Madagascar",
+        englishTitle: "Pure Bourbon Vanilla",
+        category: "Clássicos Nobres",
+        priceSingle: 16,
+        priceDouble: 26,
+        priceTub: 48,
+        img: "assets/flavours/baunilha.webp",
+        themeColor: "#D4A017",
+        bgColor: "#FEF9E7",
+        glowColor: "rgba(212, 160, 23, 0.45)",
+        badgeBg: "#FCF3CF",
+        description: "Favas puras de baunilha Bourbon colhidas em Madagascar, com notas ambaradas suaves e doçura delicada nobremente equilibrada.",
+        notes: ["🌱 Fava Bourbon Pura", "✨ Sementes Visíveis", "🍨 Doçura Equilibrada"]
+      },
+      {
+        id: 4,
+        name: "Cookies & Cream Crocante",
+        englishTitle: "Crunchy Oreo Fantasy",
+        category: "Especiais & Cookies",
+        priceSingle: 18,
+        priceDouble: 28,
+        priceTub: 52,
+        img: "assets/flavours/cookies-cream.webp",
+        themeColor: "#4A5568",
+        bgColor: "#F4F6F9",
+        glowColor: "rgba(74, 85, 104, 0.40)",
+        badgeBg: "#E2E8F0",
+        description: "Gelato super cremoso de nata pura salpicado com pedaços graúdos e crocantes de cookies artesanais de chocolate escuro intenso.",
+        notes: ["🍪 Biscoitos Artesanais", "🥛 Nata Fresca Tipo A", "⚡ Crocância Perfeita"]
+      },
+      {
+        id: 5,
+        name: "Caramelo Salgado & Toffee",
+        englishTitle: "Golden Salted Toffee",
+        category: "Caramelo & Caldas",
+        priceSingle: 18,
+        priceDouble: 28,
+        priceTub: 52,
+        img: "assets/flavours/caramelo.webp",
+        themeColor: "#E58E26",
+        bgColor: "#FEF4E8",
+        glowColor: "rgba(229, 142, 38, 0.45)",
+        badgeBg: "#FDEBD0",
+        description: "Caramelo dourado amanteigado cozido lentamente em tacho de cobre com cristais selecionados de flor de sal francesa de Guérande.",
+        notes: ["🧂 Flor de Sal Francesa", "🍯 Caramelo Dourado", "🧈 Toffee Amanteigado"]
+      },
+      {
+        id: 6,
+        name: "Limão Siciliano & Ervas",
+        englishTitle: "Zesty Italian Citrus",
+        category: "Sorbets Cítricos",
+        priceSingle: 16,
+        priceDouble: 26,
+        priceTub: 48,
+        img: "assets/flavours/limao.webp",
+        themeColor: "#7CB342",
+        bgColor: "#F1F8E9",
+        glowColor: "rgba(124, 179, 66, 0.45)",
+        badgeBg: "#DCEDC8",
+        description: "Limões sicilianos colhidos no ponto ideal de maturação, trazendo acidez vibrante e frescor revigorante sem adição de lactose.",
+        notes: ["🍋 Limão Siciliano Puro", "🌿 Raspas Perfumadas", "💧 Zero Lactose"]
+      },
+      {
+        id: 7,
+        name: "Menta com Flocos de Chocolate",
+        englishTitle: "Fresh Choco Mint",
+        category: "Refrescância Pura",
+        priceSingle: 18,
+        priceDouble: 28,
+        priceTub: 52,
+        img: "assets/flavours/menta-chocolate.webp",
+        themeColor: "#26A69A",
+        bgColor: "#E0F2F1",
+        glowColor: "rgba(38, 166, 154, 0.45)",
+        badgeBg: "#B2DFDB",
+        description: "Folhas naturais de hortelã fresca destiladas suavemente com flocos ultrafinos e crocantes de chocolate meio amargo 60%.",
+        notes: ["🍃 Hortelã Fresca Natural", "🍫 Flocos Finos de Cacau", "❄️ Refrescância Pura"]
+      },
+      {
+        id: 8,
+        name: "Pistache Puro de Bronte",
+        englishTitle: "Bronte Pistachio Gold",
+        category: "Autêntico Italiano",
+        priceSingle: 22,
+        priceDouble: 34,
+        priceTub: 62,
+        img: "assets/flavours/pistache.webp",
+        themeColor: "#8D9E38",
+        bgColor: "#F5F7E8",
+        glowColor: "rgba(141, 158, 56, 0.45)",
+        badgeBg: "#E4EBB2",
+        description: "100% pasta pura de pistache da Sicília sem corantes nem aromatizantes artificiais, textura amanteigada e pedaços tostados.",
+        notes: ["🌰 Pistache Siciliano DOP", "🚫 Zero Corantes", "🇮🇹 Receita de Bronte"]
+      },
+      {
+        id: 9,
+        name: "Maracujá Silvestre Tropical",
+        englishTitle: "Exotic Passion Fruit",
+        category: "Frutas Tropicais",
+        priceSingle: 16,
+        priceDouble: 26,
+        priceTub: 48,
+        img: "assets/flavours/maracuja.webp",
+        themeColor: "#F39C12",
+        bgColor: "#FEF7E6",
+        glowColor: "rgba(243, 156, 18, 0.45)",
+        badgeBg: "#FDEBD0",
+        description: "Polpa pura de maracujá fresco com sementinhas crocantes e equilíbrio sublime entre doçura dourada e acidez tropical radiante.",
+        notes: ["🥭 Polpa com Sementes", "☀️ Aroma Tropical Marcante", "💛 Sorbet Refrescante"]
+      },
+      {
+        id: 10,
+        name: "Frutas Vermelhas & Amoras",
+        englishTitle: "Wild Berry Symphony",
+        category: "Frutas Silvestres",
+        priceSingle: 18,
+        priceDouble: 28,
+        priceTub: 52,
+        img: "assets/flavours/frutas-vermelhas.webp",
+        themeColor: "#C2185B",
+        bgColor: "#FCE4EC",
+        glowColor: "rgba(194, 24, 91, 0.45)",
+        badgeBg: "#F8BBD0",
+        description: "Mix vibrante de framboesas, amoras silvestres e mirtilos cozidos em compota fresca misturada delicadamente ao creme lácteo.",
+        notes: ["🫐 Amoras & Mirtilos", "🍓 Framboesas Frescas", "🍯 Calda Brilhante"]
+      },
+      {
+        id: 11,
+        name: "Doce de Leite na Panela",
+        englishTitle: "Dulce de Leche Supreme",
+        category: "Tradição Artesanal",
+        priceSingle: 18,
+        priceDouble: 28,
+        priceTub: 52,
+        img: "assets/flavours/doce-de-leite.webp",
+        themeColor: "#C77D43",
+        bgColor: "#FFF3E0",
+        glowColor: "rgba(199, 125, 67, 0.45)",
+        badgeBg: "#FFE0B2",
+        description: "Doce de leite cozido por 8 horas ininterruptas seguindo a tradição das fazendas de Minas, com ponto de colher denso e aveludado.",
+        notes: ["🔥 Cozimento em Tacho de Cobre", "🥛 Leite de Fazenda", "🍯 Ponto de Colher"]
+      },
+      {
+        id: 12,
+        name: "Coco Fresco Tostado",
+        englishTitle: "Velvety Tropical Coconut",
+        category: "Sabores Tropicais",
+        priceSingle: 16,
+        priceDouble: 26,
+        priceTub: 48,
+        img: "assets/flavours/coco.webp",
+        themeColor: "#0288D1",
+        bgColor: "#E1F5FE",
+        glowColor: "rgba(2, 136, 209, 0.40)",
+        badgeBg: "#B3E5FC",
+        description: "Leite de coco artesanal extraído na hora com lascas crocantes de coco seco levemente douradas no forno para acentuar os óleos essenciais.",
+        notes: ["🥥 Coco Fresco Ralado", "✨ Fitas Tostadas", "🌴 Base Cremosa Tropical"]
+      },
+      {
+        id: 13,
+        name: "Amêndoas Caramelizadas",
+        englishTitle: "Roasted Nut Praliné",
+        category: "Frutas Secas & Nozes",
+        priceSingle: 18,
+        priceDouble: 28,
+        priceTub: 52,
+        img: "assets/flavours/amendoas.webp",
+        themeColor: "#8D6E63",
+        bgColor: "#EFEBE9",
+        glowColor: "rgba(141, 110, 99, 0.45)",
+        badgeBg: "#D7CCC8",
+        description: "Amêndoas nobres torradas artesanalmente com açúcar mascavo e canela, intercaladas em pasta amanteigada crocante de praliné.",
+        notes: ["🌰 Amêndoas Tostadas", "🍯 Praliné Dourado", "🍂 Toque Suave de Canela"]
+      },
+      {
+        id: 14,
+        name: "Tiramisù & Mascarpone",
+        englishTitle: "Classic Espresso Mascarpone",
+        category: "Sobremesas Clássicas",
+        priceSingle: 20,
+        priceDouble: 30,
+        priceTub: 56,
+        img: "assets/flavours/tiramisu.webp",
+        themeColor: "#5D4037",
+        bgColor: "#EFEBE9",
+        glowColor: "rgba(93, 64, 55, 0.45)",
+        badgeBg: "#D7CCC8",
+        description: "Queijo mascarpone autêntico aerado com café espresso especial arábica e biscoito champagne artesanal embebido em cacau amargo.",
+        notes: ["🧀 Mascarpone Autêntico", "☕ Café Espresso Especial", "🍫 Cacau 100%"]
+      },
+      {
+        id: 15,
+        name: "Blueberry Silvestre Imperial",
+        englishTitle: "Royal Wild Blueberry",
+        category: "Edições Especiais",
+        priceSingle: 20,
+        priceDouble: 30,
+        priceTub: 56,
+        img: "assets/flavours/blueberry.webp",
+        themeColor: "#5C6BC0",
+        bgColor: "#EDE7F6",
+        glowColor: "rgba(92, 107, 192, 0.45)",
+        badgeBg: "#D1C4E9",
+        description: "Mirtilos silvestres colhidos na serra com geleia natural de coloração violeta intensa e toque sutil de baunilha Bourbon.",
+        notes: ["🫐 Mirtilos Inteiros", "👑 Calda Imperial Violeta", "🌸 Aroma Florado"]
+      }
+    ];
+
+    let currentFlavorIndex = 0;
+    let selectedPortionType = 'single'; // 'single', 'double', 'tub'
+
+    function getCurrentPortionPrice() {
+      const flavor = FLAVORS_CATALOG[currentFlavorIndex];
+      if (selectedPortionType === 'double') return flavor.priceDouble;
+      if (selectedPortionType === 'tub') return flavor.priceTub;
+      return flavor.priceSingle;
+    }
+
+    function selectPortion(type, btnElement) {
+      selectedPortionType = type;
+      const flavor = FLAVORS_CATALOG[currentFlavorIndex];
+      
+      // Update buttons style
+      const group = document.getElementById('portionSelectorGroup');
+      if (group) {
+        group.querySelectorAll('.portion-btn').forEach(btn => {
+          btn.style.borderColor = '#e7e5e4';
+          btn.style.backgroundColor = '#ffffff';
+          btn.classList.remove('active-portion');
+        });
+      }
+
+      if (btnElement) {
+        btnElement.style.borderColor = flavor.themeColor;
+        btnElement.style.backgroundColor = flavor.badgeBg;
+        btnElement.classList.add('active-portion');
+      }
+
+      const portionLabels = {
+        single: '1 Bola',
+        double: '2 Bolas',
+        tub: 'Pote 500ml'
+      };
+
+      const labelEl = document.getElementById('portionSelectedText');
+      if (labelEl) labelEl.innerText = `Porção: ${portionLabels[type]}`;
+
+      const price = getCurrentPortionPrice();
+      const btnPrice = document.getElementById('btnActivePriceDisplay');
+      if (btnPrice) btnPrice.innerText = `R$ ${price.toFixed(2)}`;
+    }
+
+    function renderFlavorThumbnails() {
+      const track = document.getElementById('flavorThumbnailsTrack');
+      if (!track) return;
+
+      track.innerHTML = FLAVORS_CATALOG.map((flavor, index) => {
+        const isActive = index === currentFlavorIndex;
+        const numPad = String(index + 1).padStart(2, '0');
+        return `
+          <button 
+            type="button" 
+            onclick="selectFlavor(${index})" 
+            id="flavorThumbBtn_${index}"
+            class="flex-shrink-0 flex items-center gap-2.5 p-2 pr-3.5 rounded-2xl bg-white/80 hover:bg-white border transition-all duration-300 text-left group ${
+              isActive 
+                ? 'shadow-md scale-105 border-2' 
+                : 'border-stone-200/80 hover:border-stone-300 opacity-70 hover:opacity-100'
+            }"
+            style="${isActive ? `border-color: ${flavor.themeColor}; background: ${flavor.bgColor}; opacity: 1;` : ''}"
+            title="${flavor.name}"
+          >
+            <div class="w-10 h-10 rounded-xl overflow-hidden bg-stone-100 flex items-center justify-center border border-black/5 shadow-xs flex-shrink-0">
+              <img src="${flavor.img}" alt="${flavor.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" />
+            </div>
+            <div class="leading-tight">
+              <span class="text-[9px] font-extrabold block text-stone-400 group-hover:text-stone-600">${numPad}</span>
+              <span class="text-xs font-bold text-stone-800 whitespace-nowrap block">${flavor.name.split(' ')[0]}</span>
+            </div>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function updateFlavorShowcase(triggerScaleAnim = true) {
+      const flavor = FLAVORS_CATALOG[currentFlavorIndex];
+      const numPad = String(currentFlavorIndex + 1).padStart(2, '0');
+
+      // Update Root CSS Theme Variables (Triggers Smooth Background & Glow Transition)
+      document.documentElement.style.setProperty('--flavor-theme', flavor.themeColor);
+      document.documentElement.style.setProperty('--flavor-bg', flavor.bgColor);
+      document.documentElement.style.setProperty('--flavor-glow', flavor.glowColor);
+      document.documentElement.style.setProperty('--flavor-badge', flavor.badgeBg);
+
+      // Section Background Inline Style fallback
+      const sectionEl = document.getElementById('flavours');
+      if (sectionEl) sectionEl.style.backgroundColor = flavor.bgColor;
+
+      // Update Text Elements
+      const curNumEl = document.getElementById('flavorCurrentNum');
+      if (curNumEl) curNumEl.innerText = numPad;
+
+      const watermarkEl = document.getElementById('flavorBigWatermark');
+      if (watermarkEl) watermarkEl.innerText = numPad;
+
+      const catEl = document.getElementById('activeFlavorCategory');
+      if (catEl) catEl.innerText = flavor.category;
+
+      const engEl = document.getElementById('activeFlavorEnglish');
+      if (engEl) engEl.innerText = flavor.englishTitle;
+
+      const nameEl = document.getElementById('activeFlavorName');
+      if (nameEl) nameEl.innerText = flavor.name;
+
+      const descEl = document.getElementById('activeFlavorDesc');
+      if (descEl) descEl.innerText = flavor.description;
+
+      // Update Notes Badges
+      const notesEl = document.getElementById('activeFlavorNotes');
+      if (notesEl && flavor.notes) {
+        notesEl.innerHTML = flavor.notes.map(note => `
+          <span class="px-3 py-1 rounded-full bg-white/90 border border-stone-200/90 text-stone-700 text-xs font-semibold shadow-xs">
+            ${note}
+          </span>
+        `).join('');
+      }
+
+      // Update Prices
+      const singleTag = document.getElementById('priceTagSingle');
+      if (singleTag) singleTag.innerText = `R$ ${flavor.priceSingle.toFixed(2)}`;
+
+      const doubleTag = document.getElementById('priceTagDouble');
+      if (doubleTag) doubleTag.innerText = `R$ ${flavor.priceDouble.toFixed(2)}`;
+
+      const tubTag = document.getElementById('priceTagTub');
+      if (tubTag) tubTag.innerText = `R$ ${flavor.priceTub.toFixed(2)}`;
+
+      const curPrice = getCurrentPortionPrice();
+      const btnPrice = document.getElementById('btnActivePriceDisplay');
+      if (btnPrice) btnPrice.innerText = `R$ ${curPrice.toFixed(2)}`;
+
+      // Synchronize active portion button border & background with flavor theme
+      const portionGroup = document.getElementById('portionSelectorGroup');
+      if (portionGroup) {
+        const portionBtns = portionGroup.querySelectorAll('.portion-btn');
+        const activeTypeIndex = selectedPortionType === 'double' ? 1 : (selectedPortionType === 'tub' ? 2 : 0);
+        portionBtns.forEach((btn, idx) => {
+          if (idx === activeTypeIndex) {
+            btn.style.borderColor = flavor.themeColor;
+            btn.style.backgroundColor = flavor.badgeBg;
+            btn.classList.add('active-portion');
+          } else {
+            btn.style.borderColor = '#e7e5e4';
+            btn.style.backgroundColor = '#ffffff';
+            btn.classList.remove('active-portion');
+          }
+        });
+      }
+
+      // Update Central Image with Scale-Up Animation
+      const imgEl = document.getElementById('activeFlavorImg');
+      if (imgEl) {
+        imgEl.src = flavor.img;
+        imgEl.alt = `Sorvete ${flavor.name} Artesanal`;
+
+        if (triggerScaleAnim) {
+          imgEl.classList.remove('flavor-scale-up');
+          // Force DOM reflow so the animation re-triggers on EVERY click (left or right)
+          void imgEl.offsetWidth;
+          imgEl.classList.add('flavor-scale-up');
+        }
+      }
+
+      // Update Thumbnails Selection
+      renderFlavorThumbnails();
+
+      // Scroll active thumbnail smoothly into view
+      const activeThumb = document.getElementById(`flavorThumbBtn_${currentFlavorIndex}`);
+      if (activeThumb) {
+        activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
+    }
+
+    function nextFlavor() {
+      currentFlavorIndex = (currentFlavorIndex + 1) % FLAVORS_CATALOG.length;
+      updateFlavorShowcase(true);
+    }
+
+    function prevFlavor() {
+      currentFlavorIndex = (currentFlavorIndex - 1 + FLAVORS_CATALOG.length) % FLAVORS_CATALOG.length;
+      updateFlavorShowcase(true);
+    }
+
+    function selectFlavor(index) {
+      if (index >= 0 && index < FLAVORS_CATALOG.length) {
+        currentFlavorIndex = index;
+        updateFlavorShowcase(true);
+      }
+    }
+
+    function triggerFlavorZoom() {
+      const imgEl = document.getElementById('activeFlavorImg');
+      if (imgEl) {
+        imgEl.classList.remove('flavor-scale-up');
+        void imgEl.offsetWidth;
+        imgEl.classList.add('flavor-scale-up');
+      }
+    }
+
+    function addCurrentFlavorToCart() {
+      const flavor = FLAVORS_CATALOG[currentFlavorIndex];
+      const price = getCurrentPortionPrice();
+      const portionLabels = {
+        single: '1 Bola',
+        double: '2 Bolas',
+        tub: 'Pote 500ml'
+      };
+      const fullTitle = `${flavor.name} (${portionLabels[selectedPortionType]})`;
+      addToCart(fullTitle, price);
+    }
+
+    function orderCurrentFlavorWhatsApp() {
+      const flavor = FLAVORS_CATALOG[currentFlavorIndex];
+      const price = getCurrentPortionPrice();
+      const portionLabels = {
+        single: '1 Bola',
+        double: '2 Bolas',
+        tub: 'Pote 500ml'
+      };
+      const text = encodeURIComponent(`Olá SCOOPÉRA! 🍨 Gostaria de pedir o gelato *${flavor.name}* (${portionLabels[selectedPortionType]}) por R$ ${price.toFixed(2)}.`);
+      window.open(`https://wa.me/5532999292311?text=${text}`, '_blank');
+    }
+
+    // Keyboard Navigation for Flavors (Left / Right Arrow Keys)
+    document.addEventListener('keydown', (e) => {
+      // Avoid intercepting if user is typing in an input
+      if (['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName)) return;
+      if (e.key === 'ArrowRight') {
+        nextFlavor();
+      } else if (e.key === 'ArrowLeft') {
+        prevFlavor();
+      }
+    });
+
+    // Touch Swipe Navigation for Mobile
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const flavoursSection = document.getElementById('flavours');
+    if (flavoursSection) {
+      flavoursSection.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+      flavoursSection.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipeGesture();
+      }, { passive: true });
+    }
+
+    function handleSwipeGesture() {
+      const deltaX = touchEndX - touchStartX;
+      if (Math.abs(deltaX) > 45) {
+        if (deltaX < 0) {
+          nextFlavor();
+        } else {
+          prevFlavor();
+        }
+      }
+    }
+
+    // Initialize Showcase on Load
+    document.addEventListener('DOMContentLoaded', () => {
+      updateFlavorShowcase(false);
     });
   </script>
 
