@@ -167,36 +167,48 @@
       animation: heroConeScaleUpKeyframe 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
     }
 
-    /* Floating Corner Elements */
-    @keyframes cornerFloatTL {
-      0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
-      50% { transform: translate(-8px, -12px) rotate(-4deg) scale(1.04); }
+    /* Floating Isolated Symbols (Quadradinhos de chocolate, frutas, etc.) */
+    @keyframes floatSym1 {
+      0%, 100% { transform: translate(0, 0) rotate(-6deg) scale(1); }
+      50% { transform: translate(-8px, -14px) rotate(4deg) scale(1.05); }
     }
-    @keyframes cornerFloatTR {
-      0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
-      50% { transform: translate(10px, -10px) rotate(5deg) scale(1.05); }
+    @keyframes floatSym2 {
+      0%, 100% { transform: translate(0, 0) rotate(6deg) scale(1); }
+      50% { transform: translate(10px, -12px) rotate(-3deg) scale(1.06); }
     }
-    @keyframes cornerFloatBL {
-      0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
-      50% { transform: translate(-6px, 8px) rotate(3deg) scale(1.03); }
+    @keyframes floatSym3 {
+      0%, 100% { transform: translate(0, 0) rotate(-5deg) scale(0.96); }
+      50% { transform: translate(-6px, 12px) rotate(3deg) scale(1.02); }
     }
-    @keyframes cornerFloatBR {
-      0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
-      50% { transform: translate(8px, 10px) rotate(-4deg) scale(1.04); }
+    @keyframes floatSym4 {
+      0%, 100% { transform: translate(0, 0) rotate(5deg) scale(1); }
+      50% { transform: translate(8px, 14px) rotate(-4deg) scale(1.05); }
+    }
+    @keyframes floatSym5 {
+      0%, 100% { transform: translate(0, 0) rotate(8deg) scale(0.85); }
+      50% { transform: translate(-10px, 8px) rotate(-2deg) scale(0.92); }
+    }
+    @keyframes floatSym6 {
+      0%, 100% { transform: translate(0, 0) rotate(-5deg) scale(0.85); }
+      50% { transform: translate(8px, -10px) rotate(6deg) scale(0.92); }
     }
 
-    .corner-anim-tl { animation: cornerFloatTL 6s ease-in-out infinite; }
-    .corner-anim-tr { animation: cornerFloatTR 5.5s ease-in-out infinite; }
-    .corner-anim-bl { animation: cornerFloatBL 6.5s ease-in-out infinite; }
-    .corner-anim-br { animation: cornerFloatBR 5.8s ease-in-out infinite; }
+    .sym-anim-1 { animation: floatSym1 5.8s ease-in-out infinite; }
+    .sym-anim-2 { animation: floatSym2 6.4s ease-in-out infinite; }
+    .sym-anim-3 { animation: floatSym3 6.9s ease-in-out infinite; }
+    .sym-anim-4 { animation: floatSym4 5.5s ease-in-out infinite; }
+    .sym-anim-5 { animation: floatSym5 7.2s ease-in-out infinite; }
+    .sym-anim-6 { animation: floatSym6 6.1s ease-in-out infinite; }
 
-    /* Corner Elements Crossfade & Scale */
-    .corner-layer-img {
-      transition: opacity 0.4s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    /* Floating Symbols Transition & Drop Shadow */
+    .floating-symbol-img {
+      transition: opacity 0.35s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+      filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.35));
+      will-change: transform, opacity;
     }
-    .corner-updating {
-      opacity: 0.2;
-      transform: scale(0.85);
+    .symbol-updating {
+      opacity: 0;
+      transform: scale(0.7) translateY(10px);
     }
 
     /* Semi-Circle Orbital Arc Track */
@@ -514,46 +526,66 @@
       <!-- MAIN MONOCHROME RETANGULAR STAGE (CAMADAS: RETÂNGULO + 4 CANTOS + CONE CENTRAL + SEMI-CÍRCULO) -->
       <div id="flavorDynamicStage" class="w-full min-h-[580px] sm:min-h-[660px] md:min-h-[720px] rounded-[2.5rem] sm:rounded-[3.5rem] relative overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.18)] flex flex-col items-center justify-between p-6 sm:p-10 transition-colors duration-700" style="background-color: var(--flavor-stage-bg);">
         
-        <!-- ========================================== -->
-        <!-- LAYER 1: CORNER FLOATING ELEMENTS (FRUTAS) -->
-        <!-- ========================================== -->
-        <!-- Top-Left Corner -->
-        <div class="absolute top-3 sm:top-6 left-3 sm:left-6 z-10 pointer-events-none">
+        <!-- ========================================================================= -->
+        <!-- LAYER 1: ISOLATED FLOATING SYMBOLS (QUADRADINHOS, FRUTAS & TRUFAS LIVRES) -->
+        <!-- ========================================================================= -->
+        <!-- Symbol 1: Top-Left (Símbolo Principal - ex: Quadradinho de Chocolate / Morango Inteiro) -->
+        <div class="absolute top-16 sm:top-20 left-8 sm:left-16 z-10 pointer-events-none sym-anim-1">
           <img 
-            id="stageCornerTL" 
-            src="assets/layers/morango/corner_tl.webp" 
-            alt="Pedaços de morango frescos" 
-            class="corner-layer-img corner-anim-tl w-24 sm:w-36 md:w-48 max-h-[180px] object-contain drop-shadow-[0_15px_25px_rgba(0,0,0,0.22)] select-none" 
+            id="floatingSym1" 
+            src="assets/layers/morango/item_1.webp" 
+            alt="Símbolo do sabor" 
+            class="floating-symbol-img w-16 sm:w-24 md:w-28 max-h-[100px] sm:max-h-[130px] object-contain select-none" 
           />
         </div>
 
-        <!-- Top-Right Corner -->
-        <div class="absolute top-3 sm:top-6 right-3 sm:right-6 z-10 pointer-events-none">
+        <!-- Symbol 2: Top-Right (Símbolo Secundário - ex: Trufa de Chocolate / Fatia de Morango) -->
+        <div class="absolute top-16 sm:top-20 right-8 sm:right-16 z-10 pointer-events-none sym-anim-2">
           <img 
-            id="stageCornerTR" 
-            src="assets/layers/morango/corner_tr.webp" 
-            alt="Morango inteiro suculento" 
-            class="corner-layer-img corner-anim-tr w-24 sm:w-36 md:w-48 max-h-[180px] object-contain drop-shadow-[0_15px_25px_rgba(0,0,0,0.22)] select-none" 
+            id="floatingSym2" 
+            src="assets/layers/morango/item_2.webp" 
+            alt="Símbolo do sabor" 
+            class="floating-symbol-img w-16 sm:w-22 md:w-26 max-h-[90px] sm:max-h-[120px] object-contain select-none" 
           />
         </div>
 
-        <!-- Bottom-Left Corner -->
-        <div class="absolute bottom-28 sm:bottom-32 left-3 sm:left-6 z-10 pointer-events-none">
+        <!-- Symbol 3: Bottom-Left (Símbolo Livre com deriva orgânica) -->
+        <div class="absolute bottom-28 sm:bottom-36 left-6 sm:left-14 z-10 pointer-events-none sym-anim-3">
           <img 
-            id="stageCornerBL" 
-            src="assets/layers/morango/corner_bl.webp" 
-            alt="Pedaços de frutas cortadas" 
-            class="corner-layer-img corner-anim-bl w-20 sm:w-32 md:w-44 max-h-[160px] object-contain drop-shadow-[0_15px_25px_rgba(0,0,0,0.22)] select-none" 
+            id="floatingSym3" 
+            src="assets/layers/morango/item_2.webp" 
+            alt="Símbolo do sabor" 
+            class="floating-symbol-img w-14 sm:w-20 md:w-24 max-h-[80px] sm:max-h-[110px] object-contain select-none" 
           />
         </div>
 
-        <!-- Bottom-Right Corner -->
-        <div class="absolute bottom-28 sm:bottom-32 right-3 sm:right-6 z-10 pointer-events-none">
+        <!-- Symbol 4: Bottom-Right (Símbolo Livre) -->
+        <div class="absolute bottom-28 sm:bottom-36 right-6 sm:right-14 z-10 pointer-events-none sym-anim-4">
           <img 
-            id="stageCornerBR" 
-            src="assets/layers/morango/corner_br.webp" 
-            alt="Ingredientes e raspas" 
-            class="corner-layer-img corner-anim-br w-20 sm:w-32 md:w-44 max-h-[160px] object-contain drop-shadow-[0_15px_25px_rgba(0,0,0,0.22)] select-none" 
+            id="floatingSym4" 
+            src="assets/layers/morango/item_1.webp" 
+            alt="Símbolo do sabor" 
+            class="floating-symbol-img w-16 sm:w-22 md:w-26 max-h-[90px] sm:max-h-[120px] object-contain select-none" 
+          />
+        </div>
+
+        <!-- Symbol 5: Mid-Left Floating Accent (Profundidade sutil) -->
+        <div class="hidden sm:block absolute top-1/2 -translate-y-12 left-4 sm:left-10 z-10 pointer-events-none sym-anim-5 opacity-80">
+          <img 
+            id="floatingSym5" 
+            src="assets/layers/morango/item_1.webp" 
+            alt="Símbolo do sabor" 
+            class="floating-symbol-img w-10 sm:w-14 md:w-16 max-h-[75px] object-contain select-none" 
+          />
+        </div>
+
+        <!-- Symbol 6: Mid-Right Floating Accent (Profundidade sutil) -->
+        <div class="hidden sm:block absolute top-1/2 -translate-y-6 right-4 sm:right-10 z-10 pointer-events-none sym-anim-6 opacity-80">
+          <img 
+            id="floatingSym6" 
+            src="assets/layers/morango/item_2.webp" 
+            alt="Símbolo do sabor" 
+            class="floating-symbol-img w-10 sm:w-14 md:w-16 max-h-[75px] object-contain select-none" 
           />
         </div>
 
@@ -1363,10 +1395,8 @@
         stageBg: "#FF7597",
         themeColor: "#FF4B72",
         cone: "assets/layers/morango/cone.webp",
-        cornerTL: "assets/layers/morango/corner_tl.webp",
-        cornerTR: "assets/layers/morango/corner_tr.webp",
-        cornerBL: "assets/layers/morango/corner_bl.webp",
-        cornerBR: "assets/layers/morango/corner_br.webp",
+        item1: "assets/layers/morango/item_1.webp",
+        item2: "assets/layers/morango/item_2.webp",
         prices: { S: 16, M: 26, L: 36, XL: 48 },
         description: "Sorvete artesanal elaborado com morangos frescos macerados, base láctea suave e calda brilhante. Sem corantes artificiais, pura fruta de verdade.",
         notes: ["🍓 Morangos Frescos", "🍯 Calda Macerada", "🧇 Casquinha Crocante"]
@@ -1379,13 +1409,11 @@
         stageBg: "#4E2816",
         themeColor: "#5D2E17",
         cone: "assets/layers/chocolate/cone.webp",
-        cornerTL: "assets/layers/chocolate/corner_tl.webp",
-        cornerTR: "assets/layers/chocolate/corner_tr.webp",
-        cornerBL: "assets/layers/chocolate/corner_bl.webp",
-        cornerBR: "assets/layers/chocolate/corner_br.webp",
+        item1: "assets/layers/chocolate/item_1.webp",
+        item2: "assets/layers/chocolate/item_2.webp",
         prices: { S: 18, M: 28, L: 38, XL: 52 },
-        description: "Cacau belga nobre de alta intensidade com raspas de trufas crocantes e toque aveludado de manteiga de cacau. Para verdadeiros amantes de chocolate.",
-        notes: ["🍫 Cacau Belga 70%", "✨ Raspas de Trufa", "🥛 Ganache Aveludada"]
+        description: "Cacau belga nobre de alta intensidade com quadradinhos artesanais e trufas aveludadas. Para verdadeiros amantes de chocolate.",
+        notes: ["🍫 Quadradinho Belga", "✨ Trufa de Cacau", "🥛 Ganache Aveludada"]
       },
       {
         id: "baunilha",
@@ -1395,10 +1423,8 @@
         stageBg: "#E5B64E",
         themeColor: "#D4A017",
         cone: "assets/layers/baunilha/cone.webp",
-        cornerTL: "assets/layers/baunilha/corner_tl.webp",
-        cornerTR: "assets/layers/baunilha/corner_tr.webp",
-        cornerBL: "assets/layers/baunilha/corner_bl.webp",
-        cornerBR: "assets/layers/baunilha/corner_br.webp",
+        item1: "assets/layers/baunilha/item_1.webp",
+        item2: "assets/layers/baunilha/item_2.webp",
         prices: { S: 16, M: 26, L: 36, XL: 48 },
         description: "Favas puras de baunilha Bourbon colhidas em Madagascar, com notas ambaradas suaves e doçura delicada nobremente equilibrada.",
         notes: ["🌱 Fava Bourbon Pura", "✨ Sementes Visíveis", "🍨 Doçura Equilibrada"]
@@ -1411,13 +1437,11 @@
         stageBg: "#7FAF36",
         themeColor: "#7CB342",
         cone: "assets/layers/limao/cone.webp",
-        cornerTL: "assets/layers/limao/corner_tl.webp",
-        cornerTR: "assets/layers/limao/corner_tr.webp",
-        cornerBL: "assets/layers/limao/corner_bl.webp",
-        cornerBR: "assets/layers/limao/corner_br.webp",
+        item1: "assets/layers/limao/item_1.webp",
+        item2: "assets/layers/limao/item_2.webp",
         prices: { S: 16, M: 26, L: 36, XL: 48 },
         description: "Limões sicilianos colhidos no ponto ideal de maturação, trazendo acidez vibrante e frescor revigorante sem adição de lactose.",
-        notes: ["🍋 Limão Siciliano Puro", "🌿 Raspas Perfumadas", "💧 Zero Lactose"]
+        notes: ["🍋 Limão Siciliano Puro", "🌿 Folha de Hortelã", "💧 Zero Lactose"]
       },
       {
         id: "pistache",
@@ -1427,10 +1451,8 @@
         stageBg: "#6E8A38",
         themeColor: "#8D9E38",
         cone: "assets/layers/pistache/cone.webp",
-        cornerTL: "assets/layers/pistache/corner_tl.webp",
-        cornerTR: "assets/layers/pistache/corner_tr.webp",
-        cornerBL: "assets/layers/pistache/corner_bl.webp",
-        cornerBR: "assets/layers/pistache/corner_br.webp",
+        item1: "assets/layers/pistache/item_1.webp",
+        item2: "assets/layers/pistache/item_2.webp",
         prices: { S: 22, M: 34, L: 46, XL: 62 },
         description: "100% pasta pura de pistache da Sicília sem corantes nem aromatizantes artificiais, textura amanteigada e pedaços tostados.",
         notes: ["🌰 Pistache Siciliano DOP", "🚫 Zero Corantes", "🇮🇹 Receita de Bronte"]
@@ -1443,10 +1465,8 @@
         stageBg: "#2D3436",
         themeColor: "#4A5568",
         cone: "assets/layers/cookies-cream/cone.webp",
-        cornerTL: "assets/layers/cookies-cream/corner_tl.webp",
-        cornerTR: "assets/layers/cookies-cream/corner_tr.webp",
-        cornerBL: "assets/layers/cookies-cream/corner_bl.webp",
-        cornerBR: "assets/layers/cookies-cream/corner_br.webp",
+        item1: "assets/layers/cookies-cream/item_1.webp",
+        item2: "assets/layers/cookies-cream/item_2.webp",
         prices: { S: 18, M: 28, L: 38, XL: 52 },
         description: "Gelato super cremoso de nata pura salpicado com pedaços graúdos e crocantes de cookies artesanais de chocolate escuro intenso.",
         notes: ["🍪 Biscoitos Artesanais", "🥛 Nata Fresca Tipo A", "⚡ Crocância Perfeita"]
@@ -1497,20 +1517,22 @@
         stageEl.style.backgroundColor = flavor.stageBg;
       }
 
-      // 2. Crossfade Corner Elements (Fade out briefly then fade in with new fruits)
-      const corners = [
-        { el: document.getElementById('stageCornerTL'), src: flavor.cornerTL },
-        { el: document.getElementById('stageCornerTR'), src: flavor.cornerTR },
-        { el: document.getElementById('stageCornerBL'), src: flavor.cornerBL },
-        { el: document.getElementById('stageCornerBR'), src: flavor.cornerBR }
+      // 2. Crossfade Isolated Floating Symbols (Quadradinhos de chocolate, frutas, etc.)
+      const symbolsToUpdate = [
+        { el: document.getElementById('floatingSym1'), src: flavor.item1 },
+        { el: document.getElementById('floatingSym2'), src: flavor.item2 },
+        { el: document.getElementById('floatingSym3'), src: flavor.item2 },
+        { el: document.getElementById('floatingSym4'), src: flavor.item1 },
+        { el: document.getElementById('floatingSym5'), src: flavor.item1 },
+        { el: document.getElementById('floatingSym6'), src: flavor.item2 },
       ];
 
-      corners.forEach(item => {
+      symbolsToUpdate.forEach(item => {
         if (item.el) {
-          item.el.classList.add('corner-updating');
+          item.el.classList.add('symbol-updating');
           setTimeout(() => {
             item.el.src = item.src;
-            item.el.classList.remove('corner-updating');
+            item.el.classList.remove('symbol-updating');
           }, 150);
         }
       });
